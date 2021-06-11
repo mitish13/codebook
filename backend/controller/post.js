@@ -1,4 +1,5 @@
 import Post from "../models/Post.js";
+import User from "../models/User.js";
 import mongoose from "mongoose";
 export const createPost = async (req, res) => {
   if (!req.userID)
@@ -11,17 +12,19 @@ export const createPost = async (req, res) => {
       user: req.userID,
     });
     await newPost.save();
-    res.json("Post successfully created");
+    res.json(newPost);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
-    if (!posts) return res.status(404).json("No post found");
+    let posts = await Post.find().sort("-createdAt");
+
+    if (!posts) return res.status(200).json("No post found");
     res.json(posts);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -46,7 +49,7 @@ export const editPost = async (req, res) => {
     const updatedPost = await Post.findByIdAndUpdate(postId, req.body, {
       new: true,
     });
-    res.json("Post updated successfully");
+    res.json(updatedPost);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -56,8 +59,8 @@ export const deletePost = async (req, res) => {
   if (!mongoose.isValidObjectId(postId))
     return res.status(404).json("Invalid request");
   try {
-    await Post.findByIdAndDelete(postId);
-    res.json("Post deleted successfully");
+    const post = await Post.findByIdAndDelete(postId);
+    res.json(post);
   } catch (error) {
     res.status(500).json(error);
   }

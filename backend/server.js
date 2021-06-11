@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import postRoutes from "./routes/post.js";
 import userRoutes from "./routes/user.js";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -11,7 +11,8 @@ const app = express();
 //Middlewares are the core part of express
 // It is basically 5 diff version
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(cors());
 app.use("/post", postRoutes);
 app.use("/user", userRoutes);
 mongoose

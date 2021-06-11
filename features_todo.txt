@@ -1,0 +1,6 @@
+- create post, update, delete
+- conditional buttons 
+- pagination 
+- Post page 
+- loaders
+- search bar

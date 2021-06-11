@@ -4,7 +4,7 @@ const PostSchema = mongoose.Schema({
   title: String,
   description: String,
   tags: [String],
-  imageFiles: [String],
+  imageFiles: [Object],
   createdAt: {
     type: Date,
     default: new Date().toISOString(),

@@ -5,6 +5,7 @@ const auth = (req, res, next) => {
   if (!authorization) return res.status(404).json("Token not found");
   try {
     const token = authorization.split(" ")[1];
+    console.log(token);
     if (!token)
       return res.status(404).json({ message: "Token not formatted properly" });
     const user = jwt.verify(token, process.env.SECRET_KEY);

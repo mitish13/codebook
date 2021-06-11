@@ -13,11 +13,11 @@ export const register = async (req, res) => {
     //TODO: check wether the user already exist using username/email
     const checkExistance = await User.findOne({ email });
     if (checkExistance)
-      return res.status(404).json({ message: "User already exists" });
+      return res.status(403).json({ message: "User already exists" });
     //TODO: validate every field
     //TODO: check if the password matches confirm password
     if (password !== confirmPassword)
-      return res.status(404).json({ message: "Password does not match" });
+      return res.status(401).json({ message: "Password does not match" });
     //TODO: password encrypt
     const hashedPassword = await bcrypt.hash(password, 12);
     //TODO: add user into database
@@ -49,7 +49,8 @@ export const login = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User does not exist" });
     //TODO: check the password
     const passwordChecker = await bcrypt.compare(password, user.password);
-    if (!passwordChecker) return res.status(404).json("Wrong credintials");
+    if (!passwordChecker)
+      return res.status(404).json({ message: "Wrong credintials" });
     //TODO: create token and send to frontend, with id, email ,username
     const token = tokenGenerator({
       id: user._id,
