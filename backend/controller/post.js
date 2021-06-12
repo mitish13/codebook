@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
 };
 export const getPosts = async (req, res) => {
   try {
-    let posts = await Post.find().sort("-createdAt");
+    const posts = await Post.find().select(["-imageFiles"]).sort("-createdAt");
 
     if (!posts) return res.status(200).json("No post found");
     res.json(posts);

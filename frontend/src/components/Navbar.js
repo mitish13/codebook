@@ -4,6 +4,9 @@ import AppBar from "@material-ui/core/AppBar";
 import { logout } from "../actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { authStatusChecker } from "../actions/user";
+import { fetchPosts } from "../actions/post";
+import SearchPost from "./Post/SearchPost";
+import { isDesktop } from "react-device-detect";
 
 import {
   Typography,
@@ -11,7 +14,6 @@ import {
   Toolbar,
   useScrollTrigger,
   Slide,
-  IconButton,
   Container,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
   logo: {
     flexGrow: 1,
-    fontFamily: ["'Press Start 2P'", "cursive"],
+    fontFamily: ["cursive"],
     fontStyle: "italic",
     fontSize: "40px",
     color: "#bf1363",
@@ -51,15 +53,16 @@ const useStyles = makeStyles((theme) => ({
   },
   b: {
     fontSize: "25px",
+    fontFamily: "monospace",
     [theme.breakpoints.down("sm")]: {
       fontSize: "12px",
     },
   },
 }));
 
-const Navbar = () => {
+const Navbar = (props) => {
   const dispatch = useDispatch();
-
+  const currentPath = props.location.pathname;
   const { isLoggedin } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
@@ -74,6 +77,9 @@ const Navbar = () => {
     dispatch(logout());
   };
 
+  const postUpdateHandler = () => {
+    dispatch(fetchPosts());
+  };
   return (
     <>
       <HideOnScrollUp>
@@ -81,9 +87,12 @@ const Navbar = () => {
           <Container maxWidth="xl">
             <Toolbar>
               <Typography className={classes.logo}>
-                &lt;ode|<span className={classes.b}>&gt;</span>ook
+                <span style={{ fontFamily: "monospace" }}> &lt;</span>ode|
+                <span className={classes.b}>&gt;</span>
+                ook;
               </Typography>
-              <Link style={{ all: "unset" }} to="/">
+              {currentPath === "/" && isDesktop && <SearchPost />}
+              <Link style={{ all: "unset" }} onClick={postUpdateHandler} to="/">
                 <Button color="secondary" size="large">
                   Home
                 </Button>

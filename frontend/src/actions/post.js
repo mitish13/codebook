@@ -6,8 +6,6 @@ export const fetchPosts = () => async (dispatch) => {
   dispatch({ type: constants.FETCH_POSTS_REQUEST });
   try {
     const { data } = await axios.get("/post/get");
-    console.log(typeof data);
-    console.log(data);
     dispatch({ type: constants.FETCH_POSTS_SUCCESS, payload: data });
   } catch (error) {
     console.log(error.response);
@@ -59,14 +57,13 @@ export const createPost = (
     });
     history.replace("/");
   } catch (error) {
-    console.log("History error:" + error);
-    if (error.response === undefined) return null;
-    if (error.response.data !== undefined) {
-      dispatch({
-        type: constants.CREATE_POST_FAIL,
-        payload: error.response.data.message,
-      });
-    }
+    dispatch({
+      type: constants.CREATE_POST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
@@ -96,14 +93,13 @@ export const editPost = (
     console.log("Everything is fine till here");
     history.replace("/");
   } catch (error) {
-    console.log("History error:" + error);
-    if (error.response === undefined) return null;
-    if (error.response.data !== undefined) {
-      dispatch({
-        type: constants.EDIT_POST_FAIL,
-        payload: error.response.data.message,
-      });
-    }
+    dispatch({
+      type: constants.EDIT_POST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 
@@ -122,8 +118,17 @@ export const deletePost = (id) => async (dispatch) => {
         },
       }
     );
-    dispatch({ type: constants.DELETE_POST_SUCCESS, payload: data._id });
+    if (data === null) {
+      dispatch({ type: constants.DELETE_POST_FAIL, payload: id });
+    } else {
+      dispatch({ type: constants.DELETE_POST_SUCCESS, payload: data._id });
+    }
   } catch (error) {
     console.log(error.response);
   }
+};
+
+export const searchPost = ({ term, searchBy }) => {
+  console.log("in action");
+  return { type: constants.SEARCH_POST, payload: { term, searchBy } };
 };

@@ -11,7 +11,8 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import { InputBase, Slide } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import SearchIcon from "@material-ui/icons/Search";
+import { isMobile } from "react-device-detect";
+import SearchPost from "./Post/SearchPost";
 
 function HideOnScrollDown(props) {
   const { children, window } = props;
@@ -126,19 +127,7 @@ const Footer = () => {
 
             <div className={classes.grow} />
 
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon style={{ color: "#bf1363" }} />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
+            {isMobile && <SearchPost />}
           </Toolbar>
         </AppBar>
       </HideOnScrollDown>

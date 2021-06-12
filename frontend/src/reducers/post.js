@@ -60,6 +60,43 @@ const postReducer = (state = initialStates, action) => {
         loading: false,
         posts: state.posts.filter((post) => post._id !== action.payload),
       };
+    case constant.DELETE_POST_FAIL:
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
+
+    case constant.SEARCH_POST:
+      const { term, searchBy } = action.payload;
+      console.log(term, searchBy);
+      if (searchBy === "tags") {
+        console.log("in tags reducer");
+        const cloned = [...state.posts];
+        let newArray = [];
+        for (let i = 0; i < cloned.length; i++) {
+          //each post
+          for (let j = 0; j < cloned[i].tags.length; j++) {
+            //each tag of given post
+            if (cloned[i].tags[j].includes(term)) {
+              newArray.push(cloned[i]);
+            }
+          }
+        }
+
+        console.log(newArray);
+
+        return {
+          ...state,
+          posts: newArray,
+        };
+      }
+
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post[searchBy].includes(term)),
+      };
+
     default:
       return state;
   }

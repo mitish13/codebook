@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import postRoutes from "./routes/post.js";
 import userRoutes from "./routes/user.js";
 import cors from "cors";
+import responseTime from "response-time";
 dotenv.config();
 
 const app = express();
@@ -13,10 +14,21 @@ const app = express();
 
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
+app.use(
+  responseTime(function (req, res, time) {
+    var stat = (req.method + req.url)
+      .toLowerCase()
+      .replace(/[:.]/g, "")
+      .replace(/\//g, "_");
+
+    console.log(stat, time);
+  })
+);
 app.use("/post", postRoutes);
 app.use("/user", userRoutes);
 mongoose
   .connect(process.env.MONGO_URI, {
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -52,10 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ post, postId }) => {
-  console.log(postId);
-  const { title, imageFiles, createdAt, description, tags, _id, user } = post;
-  console.log("post user:" + post.user);
+const Post = ({ post }) => {
+  const { title, createdAt, description, tags, _id, user } = post;
   const { isLoggedin } = useSelector((state) => state.userLogin);
   const { loading } = useSelector((state) => state.post);
 
@@ -65,7 +63,6 @@ const Post = ({ post, postId }) => {
 
   //disable edit and delete buttons for non creater
   const [buttonVisible, setButtonVisible] = useState(false);
-  console.log(buttonVisible);
   function checkPostCreater() {
     if (!isLoggedin) {
       console.log("not logged in");
@@ -96,22 +93,21 @@ const Post = ({ post, postId }) => {
     return null;
   }
   const dispatch = useDispatch();
-  let postToDelete;
+  let postToDelete = false;
   const deleteHandler = () => {
-    postToDelete = post._id;
-    console.log("delete click");
+    postToDelete = true;
+    console.log("delete click" + postToDelete);
     dispatch(deletePost(post._id));
   };
 
   const editPath = `/post/edit/${_id}`;
   const classes = useStyles();
-  const handleEdit = () => {};
-  const imageBase64 = imageFiles[0].base64;
   const subheader = `Created ${moment(createdAt).fromNow()}`;
-  console.log(postToDelete === postId ? "Aj 6e" : "aaa");
+  const descriptionCutter = description.slice(0, 35);
+  const descToShow = descriptionCutter + "...";
   return (
     <>
-      {postToDelete === postId && loading ? <CircularProgress /> : null}
+      {postToDelete && loading ? <CircularProgress /> : null}
       <Card
         className={classes.root}
         style={{
@@ -133,17 +129,22 @@ const Post = ({ post, postId }) => {
             </Link>
           }
         />
-        <CardMedia className={classes.media} image={imageBase64} />
-
         <CardContent>
+          <Typography
+            variant="body2"
+            component="p"
+            style={{ color: "white", marginBottom: "10px" }}
+          >
+            {description.length <= 35 ? description : descToShow}
+          </Typography>
           <Typography style={{ maxWidth: "25ch" }}>
             {tags.map((tag) => {
               return (
                 <button
                   disabled
                   style={{
-                    color: "white",
-                    backgroundColor: "black",
+                    color: "black",
+                    backgroundColor: "gray",
                     marginRight: "2px",
                   }}
                 >
@@ -153,6 +154,7 @@ const Post = ({ post, postId }) => {
             })}
           </Typography>
         </CardContent>
+
         <CardActions>
           <IconButton aria-label="Like" color="secondary">
             <FavoriteBorder />
