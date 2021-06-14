@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import store from "./store";
 import { Provider } from "react-redux";
-import axios from "axios";
+import "./App.css";
 
 ReactDOM.render(
   <Provider store={store}>

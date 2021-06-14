@@ -3,19 +3,13 @@ import {
   Card,
   CardActions,
   CardHeader,
-  CardMedia,
   CardContent,
   IconButton,
   Typography,
   CircularProgress,
 } from "@material-ui/core";
 import moment from "moment";
-import {
-  MoreVert,
-  FavoriteBorder,
-  CommentOutlined,
-  Delete,
-} from "@material-ui/icons";
+import { MoreVert, Delete } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -50,20 +44,17 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: "red",
   },
+  link: {
+    color: "pink",
+  },
 }));
 
-const Post = ({ post }) => {
+const Post = ({ post, postId }) => {
   const { title, createdAt, description, tags, _id, user } = post;
   const { isLoggedin } = useSelector((state) => state.userLogin);
   const { loading } = useSelector((state) => state.post);
 
-  useEffect(() => {
-    checkPostCreater();
-  }, [isLoggedin]);
-
-  //disable edit and delete buttons for non creater
-  const [buttonVisible, setButtonVisible] = useState(false);
-  function checkPostCreater() {
+  const checkPostCreater = () => {
     if (!isLoggedin) {
       console.log("not logged in");
       setButtonVisible(false);
@@ -91,7 +82,15 @@ const Post = ({ post }) => {
 
     setButtonVisible(true);
     return null;
-  }
+  };
+
+  useEffect(() => {
+    checkPostCreater();
+  });
+
+  //disable edit and delete buttons for non creater
+  const [buttonVisible, setButtonVisible] = useState(false);
+
   const dispatch = useDispatch();
   let postToDelete = false;
   const deleteHandler = () => {
@@ -115,11 +114,22 @@ const Post = ({ post }) => {
         }}
       >
         <CardHeader
-          title={title}
           subheader={
             <Typography variant="body2" style={{ color: "gray" }}>
               {subheader}
             </Typography>
+          }
+          title={
+            <Link
+              to={{ pathname: `/post/${postId}`, id: postId }}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                pointerEvents: "visibleStroke",
+              }}
+            >
+              {title}
+            </Link>
           }
           action={
             <Link to={editPath} hidden={!buttonVisible}>
@@ -138,10 +148,11 @@ const Post = ({ post }) => {
             {description.length <= 35 ? description : descToShow}
           </Typography>
           <Typography style={{ maxWidth: "25ch" }}>
-            {tags.map((tag) => {
+            {tags.map((tag, index) => {
               return (
                 <button
                   disabled
+                  key={index}
                   style={{
                     color: "black",
                     backgroundColor: "gray",
@@ -156,12 +167,6 @@ const Post = ({ post }) => {
         </CardContent>
 
         <CardActions>
-          <IconButton aria-label="Like" color="secondary">
-            <FavoriteBorder />
-          </IconButton>
-          <IconButton aria-label="Comment" color="secondary">
-            <CommentOutlined />
-          </IconButton>
           <IconButton
             aria-label="Delete"
             onClick={deleteHandler}

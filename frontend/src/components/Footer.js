@@ -8,7 +8,7 @@ import Fab from "@material-ui/core/Fab";
 
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 
-import { InputBase, Slide } from "@material-ui/core";
+import { Slide } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 import { isMobile } from "react-device-detect";

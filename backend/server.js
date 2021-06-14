@@ -26,12 +26,17 @@ app.use(
 );
 app.use("/post", postRoutes);
 app.use("/user", userRoutes);
+
+app.get("/", (req, res) => {
+  res.send("App is running");
+});
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => app.listen(5000))
+  .then(() => app.listen(process.env.PORT || 5000))
   .then(() => console.log("Server running on port 5000"))
   .catch((err) => console.log(err));

@@ -4,7 +4,6 @@ import { fetchPostClearer, fetchPosts } from "../../actions/post";
 import { Grow, Grid, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 const Posts = () => {
   const { posts, loading } = useSelector((state) => state.post);
@@ -12,7 +11,7 @@ const Posts = () => {
   useEffect(() => {
     if (posts.length === 0) dispatch(fetchPosts());
     dispatch(fetchPostClearer());
-  }, [dispatch]);
+  }, [dispatch, posts.length]);
 
   return (
     <div>
@@ -21,13 +20,11 @@ const Posts = () => {
         <Typography variant="button">No post found</Typography>
       )}
       <Grow in>
-        <Grid container spacing={2} lg={12}>
+        <Grid container spacing={2}>
           {posts.map((post) => {
             return (
-              <Grid item xs={12} md={4} lg={4} sm={12}>
-                <Link style={{ all: "unset" }} to={`/post/${post._id}`}>
-                  <Post post={post} key={post._id} postId={post._id} />
-                </Link>
+              <Grid item xs={12} md={4} lg={4} sm={12} key={post._id}>
+                <Post post={post} postId={post._id} />
               </Grid>
             );
           })}

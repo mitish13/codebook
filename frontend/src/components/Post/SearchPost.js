@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import {
   InputBase,
   makeStyles,
-  fade,
   Select,
   MenuItem,
-  FormControl,
+  Toolbar,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { searchPost, fetchPosts } from "../../actions/post";
@@ -13,9 +12,7 @@ import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
-    color: "inherit",
     backgroundColor: "gray",
-    opacity: "0.5",
     color: "black",
   },
   inputInput: {
@@ -34,10 +31,9 @@ const useStyles = makeStyles((theme) => ({
   select: {
     paddingRight: `calc(1em + ${theme.spacing(2)}px)`,
     paddingLeft: `calc(1em + ${theme.spacing(1)}px)`,
-    padding: theme.spacing(1, 1, 1, 0),
     transition: theme.transitions.create("width"),
     [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1, 1, 1, 1),
+      padding: theme.spacing(0, 1, 0, 1),
     },
   },
 }));
@@ -69,8 +65,13 @@ const SearchPost = () => {
     dispatch(searchPost({ term: captureText, searchBy }));
   };
   return (
-    <>
-      <Search style={{ color: "#bf1363", position: "inherit" }} />
+    <Toolbar>
+      <Search
+        style={{
+          color: "#bf1363",
+          position: "inherit",
+        }}
+      />
       <InputBase
         placeholder="Search by"
         type="select"
@@ -90,13 +91,17 @@ const SearchPost = () => {
         color="secondary"
         onChange={changeHandler}
         onClose={closeHandler}
-        style={{ color: "white", fontFamily: "monospace" }}
+        style={{
+          color: "white",
+          fontFamily: "monospace",
+          borderBottom: "1px solid grey",
+        }}
       >
         <MenuItem value="title">title</MenuItem>
         <MenuItem value="tags">tag</MenuItem>
         <MenuItem value="description">description</MenuItem>
       </Select>
-    </>
+    </Toolbar>
   );
 };
 

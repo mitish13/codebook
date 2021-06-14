@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import { TextareaAutosize, CircularProgress } from "@material-ui/core";
+import { TextareaAutosize, LinearProgress } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Filebase from "react-file-base64";
 import userInput from "../../custom hooks/use-input";
 import Error from "../Error";
-import {
-  createPost,
-  editPost,
-  fetchPost,
-  fetchPostClearer,
-} from "../../actions/post";
+import { createPost, editPost, fetchPost } from "../../actions/post";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authStatusChecker } from "../../actions/user";
@@ -42,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  progress: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 const PostForm = ({ post }) => {
@@ -53,7 +51,7 @@ const PostForm = ({ post }) => {
     valueChangeHandler: titleChangeHandler,
     hasError: titleHasError,
     inputBlurHandler: titleBlurHandler,
-  } = userInput((title) => title !== "", post.title);
+  } = userInput((title) => title !== "", post.title ? post.title : "");
 
   const {
     value: description,
@@ -82,9 +80,7 @@ const PostForm = ({ post }) => {
   const buttonDisable =
     titleHasError || descHasError || tags.length === 0 || images.length === 0;
 
-  const { message: validationError, loading } = useSelector(
-    (state) => state.post
-  );
+  const { message: validationError } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
 
@@ -249,6 +245,7 @@ const PostForm = ({ post }) => {
 
 const CreatePost = (props) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   console.log(props);
   const { post, loading } = useSelector((state) => state.post);
@@ -260,12 +257,15 @@ const CreatePost = (props) => {
       console.log("here but why");
       dispatch(fetchPost(postId));
     }
-  }, [dispatch]);
+  }, [dispatch, props.match.params.id]);
   console.log(post);
   const { isLoggedin } = useSelector((state) => state.userLogin);
   return (
     <div>
-      {loading && <CircularProgress />}
+      {loading && (
+        <LinearProgress className={classes.progress} color="secondary" />
+      )}
+
       {!loading ? (
         isLoggedin ? (
           <PostForm post={post} />

@@ -8,15 +8,9 @@ import { fetchPosts } from "../actions/post";
 import SearchPost from "./Post/SearchPost";
 import { isDesktop } from "react-device-detect";
 
-import {
-  Typography,
-  Button,
-  Toolbar,
-  useScrollTrigger,
-  Slide,
-  Container,
-} from "@material-ui/core";
+import { Button, Toolbar, useScrollTrigger, Slide } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 function HideOnScrollUp(props) {
   const { children, window } = props;
@@ -37,31 +31,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: "black",
   },
-
-  logo: {
-    flexGrow: 1,
-    fontFamily: ["cursive"],
-    fontStyle: "italic",
-    fontSize: "40px",
-    color: "#bf1363",
-    fontWeight: "600",
-    userSelect: "none",
-    [theme.breakpoints.down("sm")]: {
-      paddingLeft: "0px",
-      fontSize: "25px",
-    },
-  },
-  b: {
-    fontSize: "25px",
-    fontFamily: "monospace",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "12px",
-    },
-  },
 }));
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
+  console.log(props);
   const currentPath = props.location.pathname;
   const { isLoggedin } = useSelector((state) => state.userLogin);
 
@@ -84,30 +58,35 @@ const Navbar = (props) => {
     <>
       <HideOnScrollUp>
         <AppBar className={classes.root}>
-          <Container maxWidth="xl">
+          <div>
             <Toolbar>
-              <Typography className={classes.logo}>
-                <span style={{ fontFamily: "monospace" }}> &lt;</span>ode|
-                <span className={classes.b}>&gt;</span>
-                ook;
-              </Typography>
+              <Logo />
               {currentPath === "/" && isDesktop && <SearchPost />}
-              <Link style={{ all: "unset" }} onClick={postUpdateHandler} to="/">
-                <Button color="secondary" size="large">
-                  Home
-                </Button>
-              </Link>
-              <Link style={{ all: "unset" }} to={path}>
+              <Link
+                style={{ textDecoration: "none" }}
+                onClick={postUpdateHandler}
+                to="/"
+              >
                 <Button
                   color="secondary"
                   size="large"
+                  style={{ border: "1px solid grey", marginRight: "5px" }}
+                >
+                  Home
+                </Button>
+              </Link>
+              <Link style={{ textDecoration: "none" }} to={path}>
+                <Button
+                  color="secondary"
+                  size="large"
+                  style={{ border: "1px solid grey" }}
                   onClick={buttonName === "Logout" ? logoutHandler : null}
                 >
                   {buttonName}
                 </Button>
               </Link>
             </Toolbar>
-          </Container>
+          </div>
         </AppBar>
       </HideOnScrollUp>
       <Toolbar />
