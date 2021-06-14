@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
-  console.log(props);
   const currentPath = props.location.pathname;
   const { isLoggedin } = useSelector((state) => state.userLogin);
 

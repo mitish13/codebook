@@ -73,7 +73,6 @@ const PostScreen = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { loading, post, message } = useSelector((state) => state.post);
-  console.log(post);
   const dispatch = useDispatch();
   useEffect(() => {
     const postId = props.match.params.id;

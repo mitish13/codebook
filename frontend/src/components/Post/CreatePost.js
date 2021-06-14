@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 const PostForm = ({ post }) => {
   const classes = useStyles();
   const history = useHistory();
-  console.log(post);
   const {
     value: title,
     valueChangeHandler: titleChangeHandler,
@@ -84,7 +83,6 @@ const PostForm = ({ post }) => {
 
   const dispatch = useDispatch();
 
-  console.log(title, description);
   //checking wether user has manually altered token or not
   const { isLoggedin } = useSelector((state) => state.userLogin);
   const submitHandler = (e) => {
@@ -94,8 +92,6 @@ const PostForm = ({ post }) => {
     dispatch(authStatusChecker());
     if (isLoggedin) {
       if (Object.keys(post).length !== 0) {
-        console.log("edit");
-        console.log(images);
         dispatch(
           editPost(
             {
@@ -202,11 +198,12 @@ const PostForm = ({ post }) => {
                 onBlur={tagsFilter}
                 onChange={tagsChangeHandler}
               />
-              {tags.map((tag, key) => {
+              {tags.map((tag, index) => {
                 return (
                   <Button
                     disabled
                     variant="contained"
+                    key={index}
                     style={{
                       color: "whitesmoke",
                       backgroundColor: "black",
@@ -247,18 +244,14 @@ const CreatePost = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  console.log(props);
   const { post, loading } = useSelector((state) => state.post);
   useEffect(() => {
     const postId = props.match.params.id;
 
-    console.log(postId);
     if (postId !== undefined) {
-      console.log("here but why");
       dispatch(fetchPost(postId));
     }
   }, [dispatch, props.match.params.id]);
-  console.log(post);
   const { isLoggedin } = useSelector((state) => state.userLogin);
   return (
     <div>

@@ -20,13 +20,11 @@ const postReducer = (state = initialStates, action) => {
     case constant.FETCH_POST_FAIL:
       return { ...state, loading: false, message: action.payload, post: {} };
     case constant.FETCH_POST_CLEAR:
-      console.log("clear called");
       return { ...state, post: {} };
 
     case constant.CREATE_POST_REQUEST:
       return { ...state, loading: true, post: {} };
     case constant.CREATE_POST_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         posts: [action.payload, ...state.posts],
@@ -41,9 +39,6 @@ const postReducer = (state = initialStates, action) => {
       const cloned = [...state.posts];
       const index = cloned.findIndex((post) => post._id === action.payload._id);
       cloned[index] = action.payload;
-      console.log("index" + index);
-      console.log("new posts");
-      console.log(cloned);
       return {
         ...state,
         loading: false,
@@ -69,9 +64,7 @@ const postReducer = (state = initialStates, action) => {
 
     case constant.SEARCH_POST:
       const { term, searchBy } = action.payload;
-      console.log(term, searchBy);
       if (searchBy === "tags") {
-        console.log("in tags reducer");
         const cloned = [...state.posts];
         let newArray = [];
         for (let i = 0; i < cloned.length; i++) {
@@ -83,8 +76,6 @@ const postReducer = (state = initialStates, action) => {
             }
           }
         }
-
-        console.log(newArray);
 
         return {
           ...state,

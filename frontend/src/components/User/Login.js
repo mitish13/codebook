@@ -3,7 +3,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -63,12 +63,10 @@ const Login = () => {
   const { isLoggedin } = useSelector((state) => state.userLogin);
   const { errMessage } = useSelector((state) => state.userLogin);
 
-  console.log(errMessage);
   if (isLoggedin) return <Redirect to="/" />;
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(state);
     dispatch(login(state.email, state.password));
   };
   return (
@@ -127,7 +125,7 @@ const Login = () => {
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link href="/user/signup" variant="body2">
+                <Link to="/user/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

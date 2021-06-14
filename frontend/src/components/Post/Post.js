@@ -56,26 +56,19 @@ const Post = ({ post, postId }) => {
 
   const checkPostCreater = () => {
     if (!isLoggedin) {
-      console.log("not logged in");
       setButtonVisible(false);
       return null;
     }
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    console.log(userInfo);
     if (userInfo === null) {
-      console.log("userinfo is null");
       setButtonVisible(false);
       return null;
     }
     if (userInfo.id === null) {
-      console.log("userId is null");
       setButtonVisible(false);
       return null;
     }
     if (userInfo.id !== user) {
-      console.log(userInfo.id);
-      console.log(user);
-      console.log("not creater is null");
       setButtonVisible(false);
       return null;
     }
@@ -95,7 +88,6 @@ const Post = ({ post, postId }) => {
   let postToDelete = false;
   const deleteHandler = () => {
     postToDelete = true;
-    console.log("delete click" + postToDelete);
     dispatch(deletePost(post._id));
   };
 
