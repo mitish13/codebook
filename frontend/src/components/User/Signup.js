@@ -15,6 +15,7 @@ import { Redirect } from "react-router-dom";
 import wallpaper from "../../wallpaper.jpg";
 import Error from "../Error";
 import userInput from "../../custom hooks/use-input";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const Signup = () => {
   const classes = useStyles();
   const { isLoggedin } = useSelector((state) => state.userLogin);
-  const { errMessage } = useSelector((state) => state.userRegister);
+  const { errMessage, loading } = useSelector((state) => state.userRegister);
   const dispatch = useDispatch();
 
   const {
@@ -200,6 +201,8 @@ const Signup = () => {
             >
               Sign Up
             </Button>
+            {loading && <CircularProgress color="secondary" />}
+
             <Error message={errMessage} condition={errMessage ? true : false} />
             <Grid container>
               <Grid item xs></Grid>

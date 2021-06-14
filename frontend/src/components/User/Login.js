@@ -14,6 +14,7 @@ import { login } from "../../actions/user";
 import { Redirect } from "react-router-dom";
 import wallpaper from "../../wallpaper.jpg";
 import Error from "../Error";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +62,7 @@ const Login = () => {
   };
 
   const { isLoggedin } = useSelector((state) => state.userLogin);
-  const { errMessage } = useSelector((state) => state.userLogin);
+  const { errMessage, loading } = useSelector((state) => state.userLogin);
 
   if (isLoggedin) return <Redirect to="/" />;
 
@@ -121,6 +122,7 @@ const Login = () => {
             >
               Sign In
             </Button>
+            {loading && <CircularProgress color="secondary" />}
             <Error message={errMessage} condition={errMessage ? true : false} />
             <Grid container>
               <Grid item xs></Grid>

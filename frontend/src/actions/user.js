@@ -5,6 +5,7 @@ import { authChecker } from "../utils/authChecker";
 export const login = (email, password) => async (dispatch) => {
   try {
     //2 actions - login success , login fail
+    dispatch({ type: constants.LOGIN_REQUEST });
     const { data } = await axios.post("/user/login", { email, password });
     localStorage.setItem("userInfo", JSON.stringify(data));
     dispatch({ type: constants.LOGIN_SUCCESS, payload: data });
@@ -33,6 +34,8 @@ export const register = (username, email, password, confirmpassword) => async (
   dispatch
 ) => {
   try {
+    dispatch({ type: constants.SIGNUP_REQUEST });
+
     const { data } = await axios.post(
       "/user/register",
       {
