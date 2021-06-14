@@ -106,14 +106,30 @@ const useStyles = makeStyles((theme) => ({
     margin: "-30px auto",
   },
 }));
-const Footer = () => {
+const Footer = (props) => {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <HideOnScrollDown>
         <AppBar position="fixed" color="primary" className={classes.appBar}>
-          <Toolbar>
+          {isMobile ? (
+            <Toolbar>
+              <Link to="/post/add">
+                <Fab
+                  color="secondary"
+                  aria-label="add"
+                  className={classes.fabButton}
+                >
+                  <AddIcon />
+                </Fab>
+              </Link>
+
+              <div className={classes.grow} />
+
+              <SearchPost />
+            </Toolbar>
+          ) : (
             <Link to="/post/add">
               <Fab
                 color="secondary"
@@ -123,11 +139,7 @@ const Footer = () => {
                 <AddIcon />
               </Fab>
             </Link>
-
-            <div className={classes.grow} />
-
-            {isMobile && <SearchPost />}
-          </Toolbar>
+          )}
         </AppBar>
       </HideOnScrollDown>
     </React.Fragment>

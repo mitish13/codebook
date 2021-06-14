@@ -10,12 +10,7 @@ import Register from "./components/User/Signup";
 import PostScreen from "./components/Post/PostScreen";
 import ErrorPage from "./components/ErrorPage";
 
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const App = () => {
   return (
