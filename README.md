@@ -6,10 +6,10 @@ Then, Codebook is for you. A social media for coders/developers.
 
 ## Initial version has a following features
 - Login / Signup securely using jwt authentication
-- Create Post, add multple code snippets 
+- Create Post, add multiple code snippets 
 - Edit, delete your post 
 - View other posts
-- Search any post using either title,descritption, tags (keyword)
+- Search any post using either title, description, tags (keyword)
 - Mobile downloadable (PWA)
 
 ## Technology stack
