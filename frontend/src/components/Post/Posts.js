@@ -11,7 +11,7 @@ const Posts = () => {
   useEffect(() => {
     if (posts.length === 0) dispatch(fetchPosts());
     dispatch(fetchPostClearer());
-  }, [dispatch, posts.length]);
+  }, [dispatch]);
 
   return (
     <div>

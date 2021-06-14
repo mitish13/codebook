@@ -61,7 +61,6 @@ const SearchPost = () => {
       dispatch(fetchPosts());
     }
     setSearchTerm(captureText);
-
     dispatch(searchPost({ term: captureText, searchBy }));
   };
   return (

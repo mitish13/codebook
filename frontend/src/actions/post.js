@@ -14,10 +14,8 @@ export const fetchPosts = () => async (dispatch) => {
 
 export const fetchPost = (id) => async (dispatch) => {
   dispatch({ type: constants.FETCH_POST_REQUEST });
-  console.log(id);
   try {
     const { data } = await axios.get(`/post/get/${id}`);
-    console.log(data);
     dispatch({ type: constants.FETCH_POST_SUCCESS, payload: data });
   } catch (error) {
     console.log(error.response.data);
@@ -50,7 +48,6 @@ export const createPost = (
         },
       }
     );
-    console.log("new Post response:" + data);
     dispatch({
       type: constants.CREATE_POST_SUCCESS,
       payload: data,
@@ -74,7 +71,6 @@ export const editPost = (
   try {
     dispatch({ type: constants.EDIT_POST_REQUEST });
     const { token } = JSON.parse(localStorage.getItem("userInfo"));
-    console.log("action title:" + title);
     const { data } = await axios.post(
       "/post/edit/" + id,
       {
@@ -90,7 +86,6 @@ export const editPost = (
       }
     );
     dispatch({ type: constants.EDIT_POST_SUCCESS, payload: data });
-    console.log("Everything is fine till here");
     history.replace("/");
   } catch (error) {
     dispatch({
@@ -129,6 +124,5 @@ export const deletePost = (id) => async (dispatch) => {
 };
 
 export const searchPost = ({ term, searchBy }) => {
-  console.log("in action");
   return { type: constants.SEARCH_POST, payload: { term, searchBy } };
 };

@@ -76,7 +76,6 @@ const postReducer = (state = initialStates, action) => {
             }
           }
         }
-
         return {
           ...state,
           posts: newArray,

@@ -77,7 +77,7 @@ const PostScreen = (props) => {
   useEffect(() => {
     const postId = props.match.params.id;
     dispatch(fetchPost(postId));
-  }, [dispatch, props.match.params.id]);
+  }, [dispatch]);
 
   //check if post is available to view
   const getPost = !loading && message === "" && Object.keys(post).length !== 0;

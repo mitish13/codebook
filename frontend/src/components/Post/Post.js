@@ -79,7 +79,7 @@ const Post = ({ post, postId }) => {
 
   useEffect(() => {
     checkPostCreater();
-  });
+  }, [isLoggedin]);
 
   //disable edit and delete buttons for non creater
   const [buttonVisible, setButtonVisible] = useState(false);
