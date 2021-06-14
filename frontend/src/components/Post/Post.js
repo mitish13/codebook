@@ -93,7 +93,10 @@ const Post = ({ post, postId }) => {
 
   const editPath = `/post/edit/${_id}`;
   const classes = useStyles();
-  const subheader = `Created ${moment(createdAt).fromNow()}`;
+  const subheader = `Created ${moment
+    .utc(createdAt)
+    .subtract(`330`, `minute`)
+    .fromNow()}`;
   const descriptionCutter = description.slice(0, 35);
   const descToShow = descriptionCutter + "...";
   return (
