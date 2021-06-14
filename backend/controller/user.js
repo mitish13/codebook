@@ -11,9 +11,13 @@ export const register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
   try {
     //TODO: check wether the user already exist using username/email
-    const checkExistance = await User.findOne({ email });
-    if (checkExistance)
-      return res.status(403).json({ message: "User already exists" });
+
+    const checkExistance1 = await User.findOne({ email: email.trim() });
+    const checkExistance2 = await User.findOne({ username: username.trim() });
+    if (checkExistance1 || checkExistance2)
+      return res
+        .status(403)
+        .json({ message: "User / Username already exists" });
     //TODO: validate every field
     //TODO: check if the password matches confirm password
     if (password !== confirmPassword)
@@ -21,9 +25,10 @@ export const register = async (req, res) => {
     //TODO: password encrypt
     const hashedPassword = await bcrypt.hash(password, 12);
     //TODO: add user into database
+    const emailToLower = email.toLowerCase();
     const newUser = new User({
       username,
-      email,
+      email: emailToLower,
       password: hashedPassword,
     });
     const user = await newUser.save();
@@ -43,9 +48,10 @@ export const register = async (req, res) => {
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
+  const emailToLower = email.toLowerCase();
   try {
     //TODO: verify that user already exist or not using email id
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: emailToLower.trim() });
     if (!user) return res.status(404).json({ message: "User does not exist" });
     //TODO: check the password
     const passwordChecker = await bcrypt.compare(password, user.password);
