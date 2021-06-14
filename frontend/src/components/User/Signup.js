@@ -176,7 +176,7 @@ const Signup = () => {
                   required
                   fullWidth
                   name="confirmpassword"
-                  label="Confrim Password"
+                  label="Confirm Password"
                   type="password"
                   id="confirmpassword"
                   autoComplete="current-password"
