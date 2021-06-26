@@ -8,7 +8,17 @@ import { fetchPosts } from "../actions/post";
 import SearchPost from "./Post/SearchPost";
 import { isDesktop } from "react-device-detect";
 
-import { Button, Toolbar, useScrollTrigger, Slide } from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+
+import {
+  Button,
+  Toolbar,
+  useScrollTrigger,
+  Slide,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 
@@ -31,12 +41,25 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: "black",
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
 }));
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const currentPath = props.location.pathname;
   const { isLoggedin } = useSelector((state) => state.userLogin);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     dispatch(authStatusChecker());
@@ -47,6 +70,7 @@ const Navbar = (props) => {
   const buttonName = isLoggedin ? "Logout" : "Login";
 
   const logoutHandler = () => {
+    handleClose();
     dispatch(logout());
   };
 
@@ -74,16 +98,50 @@ const Navbar = (props) => {
                   Home
                 </Button>
               </Link>
-              <Link style={{ textDecoration: "none" }} to={path}>
-                <Button
-                  color="secondary"
-                  size="large"
-                  style={{ border: "1px solid grey" }}
-                  onClick={buttonName === "Logout" ? logoutHandler : null}
+
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <Link
+                  style={{ textDecoration: "none", all: "unset" }}
+                  to={path}
                 >
-                  {buttonName}
-                </Button>
-              </Link>
+                  <MenuItem
+                    onClick={
+                      buttonName === "Logout" ? logoutHandler : handleClose
+                    }
+                  >
+                    {buttonName}
+                  </MenuItem>{" "}
+                </Link>
+                <Link
+                  style={{ textDecoration: "none", all: "unset" }}
+                  to="/savedPosts"
+                >
+                  <MenuItem onClick={handleClose}>Bookmarks</MenuItem>
+                </Link>
+              </Menu>
             </Toolbar>
           </div>
         </AppBar>

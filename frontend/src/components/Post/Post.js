@@ -9,11 +9,13 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import moment from "moment";
-import { MoreVert, Delete } from "@material-ui/icons";
+import { MoreVert, Delete, BookmarkBorder, Bookmark } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePost } from "../../actions/post";
+import SaveButton from "./SaveButton";
+import { toast, ToastContainer } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +56,10 @@ const Post = ({ post, postId }) => {
   const { isLoggedin } = useSelector((state) => state.userLogin);
   const { loading } = useSelector((state) => state.post);
 
+  useEffect(() => {
+    checkPostCreater();
+  }, [isLoggedin]);
+
   const checkPostCreater = () => {
     if (!isLoggedin) {
       setButtonVisible(false);
@@ -77,10 +83,6 @@ const Post = ({ post, postId }) => {
     return null;
   };
 
-  useEffect(() => {
-    checkPostCreater();
-  }, [isLoggedin]);
-
   //disable edit and delete buttons for non creater
   const [buttonVisible, setButtonVisible] = useState(false);
 
@@ -101,6 +103,7 @@ const Post = ({ post, postId }) => {
   const descToShow = descriptionCutter + "...";
   return (
     <>
+      <ToastContainer />
       {postToDelete && loading ? <CircularProgress /> : null}
       <Card
         className={classes.root}
@@ -162,13 +165,11 @@ const Post = ({ post, postId }) => {
         </CardContent>
 
         <CardActions>
-          <IconButton
-            aria-label="Delete"
+          <SaveButton post={post} />
+          <Delete
             onClick={deleteHandler}
-            style={{ display: !buttonVisible ? "none" : null }}
-          >
-            <Delete style={{ color: "red", marginRight: "auto" }} />
-          </IconButton>
+            style={{ display: !buttonVisible ? "none" : null, color: "red" }}
+          />
         </CardActions>
       </Card>
     </>

@@ -14,11 +14,12 @@ import { fetchPost } from "../../actions/post";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress, Container } from "@material-ui/core";
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import SaveButton from "./SaveButton";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px",
     flexDirection: "row",
     flexWrap: "wrap",
-    backgroundColor: "#ffeedb",
+    backgroundColor: "black",
     border: "1px solid black",
     [theme.breakpoints.down("sm")]: {
       display: "flex",
@@ -118,6 +119,7 @@ const PostScreen = (props) => {
               <CloseIcon />
             </IconButton>
             <Logo />
+            <SaveButton post={getPost && post} toastable={true} />
           </Toolbar>
         </AppBar>
         {message !== "" && (
@@ -170,35 +172,41 @@ const PostScreen = (props) => {
               }
             />
           </CardMedia>
-          <CardContent component="div" style={{ lineBreak: "strict", flex: 2 }}>
+          <CardContent component="div" style={{ flex: 2, color: "white" }}>
             <Typography gutterBottom variant="h5" component="h2">
               {getPost && post.title}
             </Typography>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              style={{ lineBreak: "strict" }}
-            >
-              {getPost && post.description}
-            </Typography>
-            <Typography style={{ maxWidth: "25ch" }}>
-              {getPost &&
-                post.tags.map((tag) => {
-                  return (
-                    <button
-                      disabled
-                      style={{
-                        color: "black",
-                        backgroundColor: "gray",
-                        marginRight: "2px",
-                      }}
-                    >
-                      {tag}
-                    </button>
-                  );
-                })}
-            </Typography>
+            <Container maxWidth="lg">
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                align="justify"
+                style={{
+                  color: "whitesmoke",
+                  fontFamily: "monospace",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {getPost && post.description}
+              </Typography>
+              <Typography style={{ maxWidth: "25ch", paddingTop: "20px" }}>
+                {getPost &&
+                  post.tags.map((tag) => {
+                    return (
+                      <button
+                        disabled
+                        style={{
+                          color: "black",
+                          backgroundColor: "gray",
+                          marginRight: "2px",
+                        }}
+                      >
+                        {tag}
+                      </button>
+                    );
+                  })}
+              </Typography>
+            </Container>
           </CardContent>
         </Card>
       </Dialog>
