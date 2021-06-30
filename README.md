@@ -19,6 +19,7 @@ Then, Codebook is for you. A social media for coders/developers.
  - material-ui
  - react-router-dom
  - moment.js
+ - Redux , React-Redux , Redux-thunk
  
  ### Backend :
  - Node.js
