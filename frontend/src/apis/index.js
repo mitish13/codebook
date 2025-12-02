@@ -7,5 +7,5 @@ import axios from "axios";
 console.log(process.env.PORT);
 
 export default axios.create({
-baseURL: "https://d1a92cj3jfoc3w.cloudfront.net"
+baseURL: "https://d2z1wkwnktfscs.cloudfront.net/api"
 }) 
