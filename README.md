@@ -1,5 +1,5 @@
 # codebook
-A social media application for coders
+A cloud-enabled social media application for coders
 
 Have you ever written a piece of code that projects your coding skill in a true manner? Would you like to share it to the world?
 Then, Codebook is for you. A social media for coders/developers.
