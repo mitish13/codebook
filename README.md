@@ -25,6 +25,7 @@ Have you ever written a piece of code that showcases your coding skills? Codeboo
 ---
 
 ## Deployment 
+> **Note:** The backend has been moved from AWS ECS Fargate to **Render's free tier** to reduce hosting costs while keeping the project accessible. All frontend/backend functionality remains the same.
 
 - **Frontend:** Hosted on **S3 static website**, distributed via **CloudFront**  
 - **Backend:** Dockerized, stored in **ECR**, deployed on **ECS Fargate** behind **ALB**, and served via **CloudFront**  
