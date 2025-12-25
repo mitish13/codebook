@@ -32,10 +32,20 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
         ECR_REPOSITORY_NAME: ${{ secrets.ECR_REPOSITORY_NAME }}
       run: |
+        # Remove any newlines from secrets
+        AWS_ACCOUNT_ID="$(echo -n "$AWS_ACCOUNT_ID")"
+        AWS_REGION="$(echo -n "$AWS_REGION")"
+        ECR_REPOSITORY_NAME="$(echo -n "$ECR_REPOSITORY_NAME")"
+
         IMAGE_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
+
         echo "Building image: ${IMAGE_URI}"
-        cd backend
-        docker buildx build --platform linux/amd64 --push -t $IMAGE_URI .  
+
+        docker buildx build \
+        --platform linux/amd64 \
+        --push \
+        -t "${IMAGE_URI}" \
+        backend
 
     # Create new task definition version; Here I created id tag to use the task defination to run service
     - name: Create ECS new task definition
