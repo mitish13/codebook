@@ -67,6 +67,8 @@ jobs:
 
     # Frontend build
     - name: Build frontend
+      env: 
+        NODE_OPTIONS: --openssl-legacy-provider
       run: |
         cd frontend
         npm install
