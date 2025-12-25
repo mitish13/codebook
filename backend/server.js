@@ -66,5 +66,5 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => app.listen(process.env.PORT || 8008))
-  .then(() => console.log(`Server running on port ${process.env.PORT?process.env.PORT : 5000 }`))
+  .then(() => console.log(`Server running on port ${process.env.PORT?process.env.PORT : 8008 }`))
   .catch((err) => console.log(err));

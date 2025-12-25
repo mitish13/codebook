@@ -6,6 +6,10 @@ import axios from "axios";
 
 console.log(process.env.PORT);
 
+// export default axios.create({
+// baseURL: "https://codebookbackend.onrender.com/api"
+// }) 
+
 export default axios.create({
-baseURL: "https://codebookbackend.onrender.com/api"
+baseURL: "https://d2z1wkwnktfscs.cloudfront.net/api/"
 }) 
