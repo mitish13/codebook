@@ -53,7 +53,6 @@
         }
     ],
     "cpu": "512",
-    "enableFaultInjection": false,
     "executionRoleArn": "arn:aws:iam::482364569067:role/ecsTaskExecutionRole",
     "family": "codebook-backend",
     "memory": "1024",
