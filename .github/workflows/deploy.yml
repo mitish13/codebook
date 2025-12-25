@@ -27,9 +27,15 @@ jobs:
       
     # Build & Push Backend
     - name: Build and push backend image
+      env:
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        ECR_REPOSITORY_NAME: ${{ secrets.ECR_REPOSITORY_NAME }}
       run: |
+        IMAGE_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
+        echo "Building image: ${IMAGE_URI}"
         cd backend
-        docker buildx build --platform linux/amd64 --push -t ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com/${{secrets.ECR_REPOSITORY_NAME}}:latest .  
+        docker buildx build --platform linux/amd64 --push -t $IMAGE_URI .  
 
     # Create new task definition version; Here I created id tag to use the task defination to run service
     - name: Create ECS new task definition
