@@ -1,15 +1,13 @@
 import axios from "axios";
 
-// export default axios.create({
-//   baseURL: "https://codebookbackend.onrender.com",
-// });
-
 console.log(process.env.PORT);
 
+
 // export default axios.create({
-// baseURL: "https://codebookbackend.onrender.com/api"
+// baseURL: "https://d2z1wkwnktfscs.cloudfront.net/api/"
 // }) 
 
+// Alternate deployement on onrender; for cost optimization
 export default axios.create({
-baseURL: "https://d2z1wkwnktfscs.cloudfront.net/api/"
+baseURL: "https://codebookbackend.onrender.com/api/"
 }) 
