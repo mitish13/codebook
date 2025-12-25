@@ -9,13 +9,13 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import moment from "moment";
-import { MoreVert, Delete, BookmarkBorder, Bookmark } from "@material-ui/icons";
+import { MoreVert, Delete } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePost } from "../../actions/post";
 import SaveButton from "./SaveButton";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
