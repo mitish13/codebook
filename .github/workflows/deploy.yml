@@ -27,6 +27,7 @@ jobs:
       
     # Build & Push Backend
     - name: Build and push backend image
+      id: build-image
       env:
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -39,7 +40,7 @@ jobs:
 
         IMAGE_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:latest"
 
-        echo "Building image: ${IMAGE_URI}"
+        echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_OUTPUT
 
         docker buildx build \
         --platform linux/amd64 \
@@ -47,14 +48,14 @@ jobs:
         -t "${IMAGE_URI}" \
         backend
 
-    # Create new task definition version; Here I created id tag to use the task defination to run service
+    # Create new task definition version; Here I created id tag to use the new task definition to run service
     - name: Create ECS new task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: infrastructure/task-definition.json
         container-name: codebook-backend
-        image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+        image: ${{ steps.build-image.outputs.IMAGE_URI }}
 
     # Deploy ECS with updated task defination
     - name: Deploy ECS service
